@@ -98,9 +98,9 @@ class OpenAIResponsesMealAnalyzer:
         client: Any | None = None,
         usda_client: USDAFoodDataClient | None = None,
     ):
-        self.model = model or os.environ.get("OPENAI_MEAL_MODEL", "gpt-5-mini")
-        self.observer_model = os.environ.get("OPENAI_OBSERVER_MODEL", "gpt-5-nano")
-        self.output_review_model = os.environ.get("OPENAI_OUTPUT_REVIEW_MODEL", "gpt-5-nano")
+        self.model = model or os.environ.get("OPENAI_MEAL_MODEL", "gpt-5.4-mini")
+        self.observer_model = os.environ.get("OPENAI_OBSERVER_MODEL", "gpt-5.4-nano")
+        self.output_review_model = os.environ.get("OPENAI_OUTPUT_REVIEW_MODEL", "gpt-5.4-nano")
         self.client = client or self._build_client()
         self.usda_client = usda_client or USDAFoodDataClient()
 

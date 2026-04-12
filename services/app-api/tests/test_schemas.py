@@ -46,7 +46,7 @@ class SchemaTests(unittest.TestCase):
         envelope = InferenceEnvelope(
             request_id="req_2",
             meal_id="meal_2",
-            model="gpt-5-mini",
+            model="gpt-5.4-mini",
             confidence="high",
             timings_ms=TimingBreakdown(moderation=12.5, observer=8.0, inference=24.0),
             payload=InferencePayload(
@@ -84,7 +84,7 @@ class SchemaTests(unittest.TestCase):
         envelope = QuestionAnswerEnvelope(
             request_id="req_3",
             meal_id="meal_3",
-            model="gpt-5-mini",
+            model="gpt-5.4-mini",
             payload=QuestionAnswerPayload(
                 question="Which item has the most protein?",
                 answer="The grilled chicken contributes the most protein.",
@@ -102,7 +102,7 @@ class SchemaTests(unittest.TestCase):
         envelope = OutputReviewEnvelope(
             request_id="req_4",
             meal_id="meal_4",
-            model="gpt-5-nano",
+            model="gpt-5.4-nano",
             payload=OutputReviewPayload(is_safe=True, notes="General wellness wording."),
         )
 
@@ -124,7 +124,7 @@ class ObserverSchemaTests(unittest.TestCase):
         envelope = ObserverEnvelope(
             request_id="req_5",
             meal_id="meal_5",
-            model="gpt-5-nano",
+            model="gpt-5.4-nano",
             payload=ObserverPayload(
                 food_relevance="food",
                 image_labels=["food", "plate"],

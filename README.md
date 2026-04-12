@@ -103,6 +103,13 @@ When `OPENAI_API_KEY` is not set, the app API still starts, but image analysis i
 
 ## Local Development
 
+Install Python service dependencies:
+
+```bash
+python3 -m pip install -r services/app-api/requirements.txt
+python3 -m pip install -r services/nutrition-service/requirements.txt
+```
+
 Start the browser app:
 
 ```bash

@@ -1,0 +1,68 @@
+[
+  {
+    "name": "USDA FoodData Central",
+    "version": "2025.09",
+    "published_at": "2025-09-15"
+  },
+  {
+    "foods": [
+      {
+        "food_code": "apple_raw",
+        "description": "Apple, raw, with skin",
+        "portion_grams": 182,
+        "calories": 95,
+        "protein_g": 0.5,
+        "carbs_g": 25.1,
+        "fat_g": 0.3,
+        "fiber_g": 4.4,
+        "sodium_mg": 1.8,
+        "potassium_mg": 195,
+        "vitamin_c_mg": 8.4,
+        "iron_mg": 0.2
+      },
+      {
+        "food_code": "grilled_chicken_breast",
+        "description": "Chicken breast, grilled",
+        "portion_grams": 120,
+        "calories": 198,
+        "protein_g": 37.0,
+        "carbs_g": 0.0,
+        "fat_g": 4.3,
+        "fiber_g": 0.0,
+        "sodium_mg": 89,
+        "potassium_mg": 332,
+        "vitamin_c_mg": 0.0,
+        "iron_mg": 1.1
+      },
+      {
+        "food_code": "brown_rice_cooked",
+        "description": "Brown rice, cooked",
+        "portion_grams": 195,
+        "calories": 216,
+        "protein_g": 5.0,
+        "carbs_g": 44.8,
+        "fat_g": 1.8,
+        "fiber_g": 3.5,
+        "sodium_mg": 10,
+        "potassium_mg": 154,
+        "vitamin_c_mg": 0.0,
+        "iron_mg": 0.8
+      },
+      {
+        "food_code": "broccoli_steamed",
+        "description": "Broccoli, steamed",
+        "portion_grams": 156,
+        "calories": 55,
+        "protein_g": 3.7,
+        "carbs_g": 11.2,
+        "fat_g": 0.6,
+        "fiber_g": 5.1,
+        "sodium_mg": 64,
+        "potassium_mg": 458,
+        "vitamin_c_mg": 101.2,
+        "iron_mg": 1.0
+      }
+    ]
+  }
+]
+

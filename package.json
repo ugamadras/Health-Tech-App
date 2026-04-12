@@ -1,0 +1,23 @@
+{
+  "name": "health-tech-app",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/mobile"
+  ],
+  "scripts": {
+    "web:start": "python3 scripts/run_app_api.py",
+    "mobile:start": "./scripts/npmw --workspace apps/mobile run start",
+    "mobile:ios": "./scripts/npmw --workspace apps/mobile run ios",
+    "mobile:android": "./scripts/npmw --workspace apps/mobile run android",
+    "db:seed": "python3 scripts/import_nutrition_data.py",
+    "app-api:start": "python3 scripts/run_app_api.py",
+    "nutrition-service:start": "python3 scripts/run_nutrition_service.py",
+    "test:app-api": "PYTHONPATH=/Users/arun/Documents/GitHub/Health-Tech-App/services/app-api/src:/Users/arun/Documents/GitHub/Health-Tech-App/services/nutrition-service/src:/Users/arun/Documents/GitHub/Health-Tech-App python3 -m unittest discover services/app-api/tests",
+    "test:nutrition-service": "PYTHONPATH=/Users/arun/Documents/GitHub/Health-Tech-App/services/app-api/src:/Users/arun/Documents/GitHub/Health-Tech-App/services/nutrition-service/src:/Users/arun/Documents/GitHub/Health-Tech-App python3 -m unittest discover services/nutrition-service/tests",
+    "test:python": "./scripts/npmw run test:app-api && ./scripts/npmw run test:nutrition-service"
+  },
+  "dependencies": {
+    "openai": "^6.33.0"
+  }
+}

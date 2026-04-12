@@ -1,0 +1,60 @@
+[
+  {
+    "name": "FDA Daily Values",
+    "version": "2024.01",
+    "published_at": "2024-01-01"
+  },
+  {
+    "daily_values": [
+      {
+        "nutrient_key": "protein_g",
+        "label": "Protein",
+        "amount": 50,
+        "unit": "g"
+      },
+      {
+        "nutrient_key": "carbs_g",
+        "label": "Carbohydrate",
+        "amount": 275,
+        "unit": "g"
+      },
+      {
+        "nutrient_key": "fat_g",
+        "label": "Total Fat",
+        "amount": 78,
+        "unit": "g"
+      },
+      {
+        "nutrient_key": "fiber_g",
+        "label": "Dietary Fiber",
+        "amount": 28,
+        "unit": "g"
+      },
+      {
+        "nutrient_key": "sodium_mg",
+        "label": "Sodium",
+        "amount": 2300,
+        "unit": "mg"
+      },
+      {
+        "nutrient_key": "potassium_mg",
+        "label": "Potassium",
+        "amount": 4700,
+        "unit": "mg"
+      },
+      {
+        "nutrient_key": "vitamin_c_mg",
+        "label": "Vitamin C",
+        "amount": 90,
+        "unit": "mg"
+      },
+      {
+        "nutrient_key": "iron_mg",
+        "label": "Iron",
+        "amount": 18,
+        "unit": "mg"
+      }
+    ]
+  }
+]
+

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ -x /opt/homebrew/bin/npm ]; then
+  export PATH="/opt/homebrew/bin:$PATH"
+  exec /opt/homebrew/bin/npm "$@"
+fi
+
+if [ -x /usr/local/bin/npm ]; then
+  export PATH="/usr/local/bin:$PATH"
+  exec /usr/local/bin/npm "$@"
+fi
+
+exec npm "$@"

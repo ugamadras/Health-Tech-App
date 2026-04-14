@@ -119,7 +119,9 @@ class MealAnalysisOrchestrator:
 
     def _build_nutrition_summary(self, meal_items: list[MealItem]) -> NutritionSummary:
         totals = NutritionTotals()
+        confident_totals = NutritionTotals()
         matched_items = 0
+        confident_items = 0
 
         for item in meal_items:
             item_data = self._meal_item_to_dict(item)
@@ -131,23 +133,14 @@ class MealAnalysisOrchestrator:
             for key in totals.model_dump().keys():
                 value = nutrients.get(key)
                 if value is not None:
-                    setattr(totals, key, getattr(totals, key) + float(value) * multiplier)
+                    scaled_value = float(value) * multiplier
+                    setattr(totals, key, getattr(totals, key) + scaled_value)
+                    if usda_match and self._is_confident_for_insights(item_data):
+                        setattr(confident_totals, key, getattr(confident_totals, key) + scaled_value)
+            if usda_match and self._is_confident_for_insights(item_data):
+                confident_items += 1
 
-        insights: list[str] = []
-        if matched_items:
-            insights.append(
-                f"USDA nutrition details were attached for {matched_items} of {len(meal_items)} identified meal items."
-            )
-        if any(self._estimate_portion_multiplier(self._meal_item_to_dict(item)) != 1.0 for item in meal_items):
-            insights.append("Meal totals include approximate portion-size scaling where the model and USDA serving units were compatible.")
-        if totals.protein_g >= 25:
-            insights.append("This meal appears relatively high in protein based on the USDA-matched items.")
-        if totals.fiber_g >= 5:
-            insights.append("This meal appears to include a meaningful amount of dietary fiber.")
-        if totals.sodium_mg >= 600:
-            insights.append("Sodium may be worth a closer look if you are comparing meals for general wellness tracking.")
-        if not insights:
-            insights.append("Nutrition totals reflect only the meal items that were matched to USDA foods.")
+        insights = self._build_user_friendly_insights(confident_totals, confident_items)
 
         return NutritionSummary(
             totals=totals,
@@ -155,6 +148,40 @@ class MealAnalysisOrchestrator:
             identified_item_count=len(meal_items),
             insights=insights,
         )
+
+    def _build_user_friendly_insights(self, totals: NutritionTotals, confident_items: int) -> list[str]:
+        if confident_items <= 0:
+            return [
+                "We identified likely food items, but portions were not confident enough for detailed meal insights.",
+                "These numbers are best used as broad estimates. A clearer top-down photo can improve detail.",
+            ]
+
+        insights: list[str] = []
+
+        if totals.calories > 0:
+            insights.append(f"Based on the clearest items and portions, this meal is estimated at about {round(totals.calories)} calories.")
+
+        macro_calories = {
+            "protein": max(0.0, totals.protein_g) * 4.0,
+            "carbs": max(0.0, totals.carbs_g) * 4.0,
+            "fat": max(0.0, totals.fat_g) * 9.0,
+        }
+        total_macro_calories = sum(macro_calories.values())
+        if total_macro_calories > 0:
+            dominant_macro = max(macro_calories, key=macro_calories.get)
+            dominant_share = round((macro_calories[dominant_macro] / total_macro_calories) * 100)
+            insights.append(f"Most of the estimated calories come from {dominant_macro} (about {dominant_share}%).")
+
+        if totals.protein_g >= 25:
+            insights.append("This meal looks like a solid protein source.")
+        if totals.fiber_g >= 5:
+            insights.append("This meal likely provides a meaningful amount of fiber.")
+        if totals.sodium_mg >= 600:
+            insights.append("Estimated sodium looks on the higher side for one meal.")
+
+        if not insights:
+            insights.append("We identified the meal and generated high-level nutrition estimates.")
+        return insights
 
     def _meal_item_to_dict(self, item: MealItem | dict[str, Any]) -> dict[str, Any]:
         if hasattr(item, "model_dump"):
@@ -205,6 +232,20 @@ class MealAnalysisOrchestrator:
             return max(1.0, float(item_count))
         except (TypeError, ValueError):
             return 1.0
+
+    def _is_confident_for_insights(self, item: dict[str, Any]) -> bool:
+        item_confidence = str(item.get("confidence") or "").lower()
+        portion_confidence = str(item.get("portion_confidence") or "").lower()
+        if item_confidence not in {"medium", "high"}:
+            return False
+        if portion_confidence not in {"medium", "high"}:
+            return False
+
+        item_count = item.get("item_count")
+        item_count_confidence = str(item.get("item_count_confidence") or "").lower()
+        if item_count not in (None, 0, 1) and item_count_confidence not in {"medium", "high"}:
+            return False
+        return True
 
     def _fallback_answer(self, record: MealRecord, question: str) -> dict:
         summary = record.analysis.nutrition_summary if record.analysis is not None else None

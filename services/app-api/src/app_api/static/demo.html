@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meal Analyzer Demo</title>
+    <link rel="stylesheet" href="/app/static/demo.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <p class="eyebrow">Meal Analyzer Demo</p>
+        <h1>Upload a meal photo and get clear nutrition insights in seconds.</h1>
+        <p class="subhead">
+          This view is designed for interview demos with clean, readable output and no raw payloads.
+        </p>
+        <div class="status-row">
+          <span id="api-status" class="pill">Checking API...</span>
+          <span id="model-status" class="pill pill-muted">Checking model...</span>
+        </div>
+      </header>
+
+      <section class="card">
+        <form id="meal-form" class="stack-lg">
+          <label id="dropzone" class="dropzone" for="image-file">
+            <input id="image-file" type="file" accept="image/png,image/jpeg,image/heic" />
+            <p class="dropzone-title">Drag and drop a meal photo or click to upload</p>
+            <p id="file-name" class="dropzone-meta">PNG, JPG, or HEIC</p>
+          </label>
+          <button id="analyze-button" type="submit" class="button">Analyze Meal</button>
+        </form>
+      </section>
+
+      <section id="message-panel" class="card hidden"></section>
+
+      <section id="result-panel" class="stack-lg hidden">
+        <div class="metric-grid">
+          <article class="metric">
+            <p class="metric-label">Estimated Calories</p>
+            <p id="metric-calories" class="metric-value">--</p>
+          </article>
+          <article class="metric">
+            <p class="metric-label">Protein</p>
+            <p id="metric-protein" class="metric-value">--</p>
+          </article>
+          <article class="metric">
+            <p class="metric-label">Carbs</p>
+            <p id="metric-carbs" class="metric-value">--</p>
+          </article>
+          <article class="metric">
+            <p class="metric-label">Fat</p>
+            <p id="metric-fat" class="metric-value">--</p>
+          </article>
+        </div>
+
+        <div class="two-col">
+          <section class="card">
+            <h2>Identified Meal Items</h2>
+            <div id="meal-items" class="stack"></div>
+          </section>
+          <section class="card">
+            <h2>Nutrition Insights</h2>
+            <ul id="insights" class="insight-list"></ul>
+          </section>
+        </div>
+
+        <section class="card disclaimer">
+          <h2>Disclaimer</h2>
+          <p id="disclaimer-text"></p>
+        </section>
+
+        <section class="card">
+          <h2>Ask a Follow-up Question</h2>
+          <form id="question-form" class="question-form">
+            <input
+              id="question-input"
+              type="text"
+              placeholder="Example: Which item contributes the most protein?"
+            />
+            <button type="submit" class="button">Ask</button>
+          </form>
+          <div id="qa-answer" class="qa-answer hidden"></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="/app/static/demo.js"></script>
+  </body>
+</html>

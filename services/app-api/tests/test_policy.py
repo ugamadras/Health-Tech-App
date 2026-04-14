@@ -548,6 +548,9 @@ class UploadPolicyTest(unittest.TestCase):
         self.assertAlmostEqual(record.analysis.nutrition_summary.totals.protein_g, 46.6, places=1)
         self.assertEqual(record.analysis.nutrition_summary.matched_item_count, 2)
         self.assertTrue(record.analysis.nutrition_summary.insights)
+        joined_insights = " ".join(record.analysis.nutrition_summary.insights)
+        self.assertNotIn("USDA nutrition details were attached", joined_insights)
+        self.assertNotIn("portion-size scaling", joined_insights)
 
     def test_orchestrator_multiplies_repeated_discrete_items_by_item_count(self) -> None:
         class TacoVisionClient:

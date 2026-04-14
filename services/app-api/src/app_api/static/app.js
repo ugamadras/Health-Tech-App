@@ -276,8 +276,6 @@ function renderStageSummaries(data) {
   const passedModeration = moderationFlags.length === 0 && data.validation?.reason_code !== "unsafe_content";
   const observerDecision = observer?.food_relevance || (passedModeration ? data.validation?.food_relevance || "--" : "--");
   const passedObserver = observerDecision === "food";
-  const advancedToInference = Boolean(modelOutput) && passedModeration && passedObserver;
-
   renderRows(moderationSummary, [
     {
       label: "Moderation ran",

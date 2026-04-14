@@ -63,6 +63,7 @@ def create_app() -> "FastAPI | None":
             web_app_url="/app",
             openai_responses_enabled=vision_client is not None,
             routes=[
+                "/demo",
                 "/auth/register",
                 "/auth/login",
                 "/meals",
@@ -79,6 +80,10 @@ def create_app() -> "FastAPI | None":
     @app.get("/app")
     def web_app() -> "FileResponse":
         return FileResponse(STATIC_DIR / "index.html")
+
+    @app.get("/demo")
+    def demo_web_app() -> "FileResponse":
+        return FileResponse(STATIC_DIR / "demo.html")
 
     @app.post("/auth/register")
     def register(payload: AuthRequest) -> RegisterResponse:

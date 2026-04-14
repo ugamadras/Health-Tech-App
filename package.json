@@ -10,6 +10,9 @@
     "mobile:start": "./scripts/npmw --workspace apps/mobile run start",
     "mobile:ios": "./scripts/npmw --workspace apps/mobile run ios",
     "mobile:android": "./scripts/npmw --workspace apps/mobile run android",
+    "lint": "./scripts/npmw run lint:js && ./scripts/npmw run lint:python",
+    "lint:js": "eslint \"services/app-api/src/app_api/static/**/*.js\"",
+    "lint:python": "PYTHONPYCACHEPREFIX=/tmp/health-tech-pyc python3 -m compileall -q services/app-api/src services/nutrition-service/src",
     "db:seed": "python3 scripts/import_nutrition_data.py",
     "app-api:start": "python3 scripts/run_app_api.py",
     "nutrition-service:start": "python3 scripts/run_nutrition_service.py",
@@ -19,5 +22,8 @@
   },
   "dependencies": {
     "openai": "^6.33.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.37.0"
   }
 }

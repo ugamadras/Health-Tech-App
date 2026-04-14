@@ -11,13 +11,6 @@
       <header class="hero">
         <p class="eyebrow">Meal Analyzer</p>
         <h1>Upload a meal photo and get clear nutrition insights in seconds.</h1>
-        <p class="subhead">
-          Upload a meal image to receive clean, readable nutrition insights without technical clutter.
-        </p>
-        <div class="status-row">
-          <span id="api-status" class="pill">Checking API...</span>
-          <span id="model-status" class="pill pill-muted">Checking model...</span>
-        </div>
       </header>
 
       <section class="card">
@@ -32,6 +25,15 @@
       </section>
 
       <section id="message-panel" class="card hidden"></section>
+      <section id="loading-panel" class="card loading-panel hidden" aria-live="polite">
+        <div class="loading-row">
+          <span class="hourglass" aria-hidden="true"></span>
+          <div>
+            <p class="loading-title">Analyzing your meal photo</p>
+            <p id="loading-step" class="loading-step">Preparing analysis...</p>
+          </div>
+        </div>
+      </section>
 
       <section id="result-panel" class="stack-lg hidden">
         <div class="metric-grid">

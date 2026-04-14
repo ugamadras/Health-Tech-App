@@ -10,6 +10,8 @@ module.exports = [
         document: "readonly",
         fetch: "readonly",
         FileReader: "readonly",
+        clearInterval: "readonly",
+        setInterval: "readonly",
         Number: "readonly",
         Promise: "readonly",
         String: "readonly",

@@ -3,9 +3,9 @@ const imageFileInput = document.getElementById("image-file");
 const dropzone = document.getElementById("dropzone");
 const fileName = document.getElementById("file-name");
 const analyzeButton = document.getElementById("analyze-button");
-const apiStatus = document.getElementById("api-status");
-const modelStatus = document.getElementById("model-status");
 const messagePanel = document.getElementById("message-panel");
+const loadingPanel = document.getElementById("loading-panel");
+const loadingStep = document.getElementById("loading-step");
 const resultPanel = document.getElementById("result-panel");
 const metricCalories = document.getElementById("metric-calories");
 const metricProtein = document.getElementById("metric-protein");
@@ -20,6 +20,7 @@ const qaAnswer = document.getElementById("qa-answer");
 
 let currentMealId = null;
 let currentDisclaimer = "";
+let loadingTimer = null;
 
 function formatNumber(value, suffix = "") {
   if (value === null || value === undefined || Number.isNaN(Number(value))) {
@@ -57,6 +58,34 @@ function resetResultView() {
   qaAnswer.innerHTML = "";
   currentMealId = null;
   currentDisclaimer = "";
+}
+
+function startLoadingState() {
+  const steps = [
+    "Checking image safety...",
+    "Identifying foods on the plate...",
+    "Estimating portions and nutrition values...",
+    "Preparing your meal insights...",
+  ];
+  let index = 0;
+  loadingStep.textContent = steps[index];
+  loadingPanel.classList.remove("hidden");
+
+  if (loadingTimer) {
+    clearInterval(loadingTimer);
+  }
+  loadingTimer = setInterval(() => {
+    index = (index + 1) % steps.length;
+    loadingStep.textContent = steps[index];
+  }, 2200);
+}
+
+function stopLoadingState() {
+  if (loadingTimer) {
+    clearInterval(loadingTimer);
+    loadingTimer = null;
+  }
+  loadingPanel.classList.add("hidden");
 }
 
 function renderSummary(analysis) {
@@ -138,19 +167,6 @@ async function toBase64(file) {
   });
 }
 
-async function loadStatus() {
-  const response = await fetch("/");
-  const data = await response.json();
-  apiStatus.textContent = `API: ${data.status || "unknown"}`;
-  if (data.openai_responses_enabled) {
-    modelStatus.textContent = "Model pipeline: enabled";
-    modelStatus.classList.remove("pill-muted");
-  } else {
-    modelStatus.textContent = "Model pipeline: unavailable";
-    modelStatus.classList.add("pill-muted");
-  }
-}
-
 function bindDropzone() {
   ["dragenter", "dragover"].forEach((eventName) => {
     dropzone.addEventListener(eventName, (event) => {
@@ -195,6 +211,7 @@ form.addEventListener("submit", async (event) => {
   resetResultView();
   analyzeButton.disabled = true;
   analyzeButton.textContent = "Analyzing...";
+  startLoadingState();
 
   try {
     const payload = {
@@ -242,6 +259,7 @@ form.addEventListener("submit", async (event) => {
   } catch (error) {
     setMessage(error instanceof Error ? error.message : "Unexpected error while analyzing image.", "error");
   } finally {
+    stopLoadingState();
     analyzeButton.disabled = false;
     analyzeButton.textContent = "Analyze Meal";
   }
@@ -310,7 +328,3 @@ questionForm.addEventListener("submit", async (event) => {
 });
 
 bindDropzone();
-loadStatus().catch(() => {
-  apiStatus.textContent = "API: unavailable";
-  modelStatus.textContent = "Model pipeline: unavailable";
-});
